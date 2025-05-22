@@ -1,0 +1,62 @@
+#include <Servo.h>
+
+Servo servo4;
+Servo servo5;
+Servo servo3;
+Servo servo6;
+
+int X = 90;
+int V = 90;
+int Y;
+
+void setup() {
+  servo4.attach(4);
+  servo5.attach(5);
+  servo3.attach(3);
+  servo6.attach(6);
+  
+  servo4.write(V);
+  servo4.write(V); 
+  servo5.write(X);
+  servo4.write(V);
+  
+  pinMode(10, INPUT_PULLUP);
+}
+
+void loop() {
+  int joyX = analogRead(A1);
+  
+  if (joyX <= 20) {
+    X = map(joyX, 0, 20, 0, 180);
+    servo4.write(X);
+    servo5.write(X);
+    delay(100);
+  }
+  
+  if (joyX >= 700) {
+    X = map(joyX, 700, 1023, 0, 180);
+    servo4.write(X);
+    servo5.write(X);
+    delay(100);
+  }
+  
+  int joyY = analogRead(A0);
+  
+  if (joyY <= 20) {
+    Y = map(joyY, 0, 20, 0, 180);
+    servo3.write(Y);
+    delay(100);
+  }
+  
+  if (joyY >= 700) {
+    Y = map(joyY, 700, 1023, 0, 180);
+    servo3.write(Y);
+    delay(100);
+  }
+  
+  if (digitalRead(10) == LOW) { 
+    servo6.write(180);
+  } else {
+    servo6.write(90);
+  }
+}
